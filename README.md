@@ -1,6 +1,4 @@
-## A Super basic JS Setup including Babel, TS, SASS, and Webpack
-
-A NodeJS-free JS app, including basic configuration to get off the ground.
+## Rendering real-time OpenGL 3D graphics from an incoming MIDI stream
 
 ### Commands
 
