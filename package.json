@@ -1,11 +1,11 @@
 {
-  "name": "nonodejs",
+  "name": "bonesprayjs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "webpack": "webpack --mode=development",
-    "start": "http-server"
+    "build": "webpack --mode=development",
+    "watch": "npm run build && webpack-dev-server --hot --no-inline"
   },
   "author": "",
   "license": "ISC",
@@ -16,20 +16,24 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
+    "@types/three": "^0.103.2",
     "@typescript-eslint/eslint-plugin": "^3.0.1",
     "@typescript-eslint/parser": "^3.0.1",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
-    "http-server": "^0.12.3",
+    "html-webpack-plugin": "^4.3.0",
+    "raw-loader": "^4.0.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.3",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "requirejs": "^2.3.6"
+    "requirejs": "^2.3.6",
+    "three": "^0.116.1"
   }
 }
