@@ -1,6 +1,6 @@
-import { IMidi } from "../types/IMidi";
+import { IMidiInterface, MidiAccess, MidiPort, PortType } from "../types/midi";
 
-export default class Midi implements IMidi {
+export default class MidiInterface implements IMidiInterface {
     getMidiAccess(): Promise<MidiAccess> {
         return navigator.requestMIDIAccess();
     }
