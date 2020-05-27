@@ -8,13 +8,13 @@ export class BoxScene implements IScene {
     initialised: boolean = false;
 
     // Scene Elements
-    camera?: THREE.PerspectiveCamera;
-    scene?: THREE.Scene;
-    renderer?: THREE.WebGLRenderer;
-    geometry?: THREE.Geometry;
-    material?: THREE.Material;
-    mesh1?: THREE.Object3D;
-    mesh2?: THREE.Object3D;
+    camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera;
+    scene: THREE.Scene = new THREE.Scene;
+    renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer;
+    geometry: THREE.Geometry = new THREE.Geometry;
+    material: THREE.Material = new THREE.Material;
+    mesh1: THREE.Object3D = new THREE.Object3D;
+    mesh2: THREE.Object3D = new THREE.Object3D;
 
     constructor(id: number) {
         this.id = id;
@@ -26,15 +26,18 @@ export class BoxScene implements IScene {
     }
 
     processNote = (note: MidiNote): void => {
+        console.log(note);
         if (note.type == 'on') {
-            if (this.mesh1 !== undefined) {
-                this.mesh1.visible = true;
-            }
+            this.mesh1.visible = true;
+        }
+        else if (note.type == 'hit') {
+            this.mesh1.visible = true;
+            setTimeout(() => {
+                this.mesh1.visible = false;
+            }, 200);
         }
         else {
-            if (this.mesh1 !== undefined) {
-                this.mesh1.visible = false;
-            }
+            this.mesh1.visible = false;
         }
     }
 
@@ -75,14 +78,6 @@ export class BoxScene implements IScene {
 
     animate = () => {
         if (this.active === false) return;
-
-        if (
-            this.mesh1 === undefined ||
-            this.mesh2 === undefined ||
-            this.renderer === undefined ||
-            this.scene === undefined ||
-            this.camera === undefined) return;
-
         requestAnimationFrame(this.animate);
 
         this.mesh1.rotation.x += 0.01;

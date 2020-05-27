@@ -23,14 +23,11 @@ export default class MidiInterface implements IMidiInterface {
         return this
             .getMidiAccess()
             .then(access => {
-                switch (type) {
-                    case 'input':
-                        return Array.from(access.inputs.values())
-                            .find(p => p.name == name);
-                    case 'output':
-                        return Array.from(access.outputs.values())
-                            .find(p => p.name == name);
-                }
+                const ports = type == 'input' ?
+                    Array.from(access.inputs.values()) :
+                    Array.from(access.outputs.values());
+
+                return ports.find(x => x.name == name);
             });
     }
 }

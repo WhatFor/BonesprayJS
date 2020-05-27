@@ -32,7 +32,7 @@ export interface IMidiDevice {
     deviceName: string;
     pushNoteCallback: (note: MidiNote) => void
     connect(): void
-    mapNote(message: MidiMessage): MidiNote
+    mapNote(message: MidiMessage): MidiNote | undefined
 }
 
 export declare type MidiAccess = {
@@ -66,4 +66,4 @@ export declare type MidiNote = {
 
 export declare type PortType = 'input' | 'output'
 
-export declare type MidiOnOff = 'on' | 'off'
+export declare type MidiOnOff = 'on' | 'off' | 'hit' | 'void'
