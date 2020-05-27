@@ -1,6 +1,8 @@
 import '../scss/site.scss';
-import { AbletonDevice } from './modules/Devices/AbletonDevice';
+import { Push2Device } from './modules/Devices/Push2Device';
+import { DrumkitDevice } from './modules/Devices/DrumkitDevice';
 import { KeyboardDevice } from './modules/Devices/KeyboardDevice';
+
 import SceneManager from './modules/SceneManager';
 import { BoxScene } from './modules/Scenes/BoxScene';
 import MidiInterface from './modules/MidiInterface';
@@ -17,10 +19,15 @@ import MidiInterface from './modules/MidiInterface';
         new BoxScene(1),
     ]);
 
-    // Connect Ableton
-    var ableton = new AbletonDevice();
-    ableton.connect();
-    ableton.pushNoteCallback = note => sceneManager.pushNote(note);
+    // Connect Push2 
+    var push = new Push2Device();
+    push.connect();
+    push.pushNoteCallback = note => sceneManager.pushNote(note);
+
+    // Connect Drumkit
+    var drum = new DrumkitDevice();
+    drum.connect();
+    drum.pushNoteCallback = note => sceneManager.pushNote(note);
 
     // Connect Keyboard
     var keyboard = new KeyboardDevice();

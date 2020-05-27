@@ -1,13 +1,11 @@
-
 import { IMidiDevice, MidiNote, MidiMessage, MidiOnOff } from "../../types/midi";
 import MidiInterface from "../MidiInterface";
 
-export class KeyboardDevice implements IMidiDevice {
+export class Push2Device implements IMidiDevice {
 
-    deviceName: string = '03. Internal MIDI';
+    deviceName: string = '01. Internal MIDI';
 
     private midi: MidiInterface = new MidiInterface();
-    private onNotes: number[] = [];
     pushNoteCallback: (note: MidiNote) => void = _ => { };
 
     connect() {
@@ -18,7 +16,7 @@ export class KeyboardDevice implements IMidiDevice {
 
                 port.onmidimessage = (message: MidiMessage) => {
                     var note = this.mapNote(message);
-                    if (note == undefined) return;
+                    if (note === undefined) return;
                     this.pushNoteCallback(note);
                 };
 
@@ -28,34 +26,22 @@ export class KeyboardDevice implements IMidiDevice {
 
     mapNote(message: MidiMessage): MidiNote | undefined {
 
-        let type: MidiOnOff;
         let note: number = message.data[1];
-
-        // If we already have the 'ON' event, we know
-        // that the same not occuring again is an 'OFF' event
-        if (this.onNotes.includes(note)) {
-
-            type = 'off';
-
-            // If it is an OFF, remove the note from the onNotes array
-            this.onNotes.splice(this.onNotes.indexOf(note), 1);
-
-            // If we've still got notes ON, then don't send the off?
-            // This is probably up to the scene to decide how to handle it, though
-            if (this.onNotes.length > 0) return undefined;
-        }
-        else {
-            type = 'on';
-            // If it is an ON, add it to our onNotes array
-            this.onNotes.push(note);
-        }
+        let type: MidiOnOff = message.data[2] > 0 ? 'on' : 'off';
+        let channel = this.mapToChannel(message.data[0], type);
 
         return {
             device: this.deviceName,
-            channel: message.data[0] - 128,
+            channel: channel,
             note: note,
             velocity: message.data[2],
             type: type,
         };
+    }
+
+    mapToChannel(channel: number, type: MidiOnOff) {
+        let channelNumber = channel - 128;
+        if (type == 'on') channelNumber -= 2 ** 4;
+        return channelNumber;
     }
 }

@@ -1,19 +1,13 @@
+
 import { IMidiDevice, MidiNote, MidiMessage, MidiOnOff } from "../../types/midi";
 import MidiInterface from "../MidiInterface";
 
-export class AbletonDevice implements IMidiDevice {
+export class DrumkitDevice implements IMidiDevice {
+
+    deviceName: string = '02. Internal MIDI';
 
     private midi: MidiInterface = new MidiInterface();
-
-    /*
-     *  For drum hits, we need to do some magic.
-     *  Keep track of all ON notes, as for some reason
-     *  the keyboard doesn't publish OFF events.
-     */
-    private drumChannels: number[] = [2];
     private onNotes: number[] = [];
-
-    deviceName: string = 'LoopBe Internal MIDI';
     pushNoteCallback: (note: MidiNote) => void = _ => { };
 
     connect() {
@@ -27,6 +21,8 @@ export class AbletonDevice implements IMidiDevice {
                     if (note === undefined) return;
                     this.pushNoteCallback(note);
                 };
+
+                console.warn("Device connected. MIDI Name: " + this.deviceName);
             });
     }
 
@@ -40,28 +36,21 @@ export class AbletonDevice implements IMidiDevice {
         var nativeChannel = message.data[0] - 128;
         if (nativeChannel - 16 > 0) nativeChannel -= 16;
 
-        if (this.drumChannels.includes(nativeChannel)) {
-            // If we already have the 'ON' event, we know
-            // that the same note occuring again is a 'HIT' event
-            if (!this.onNotes.includes(note)) {
-                this.onNotes.push(note);
-                channel = nativeChannel;
-                type = 'hit';
-            }
-            else {
-                // We've seen this hit before, so we wanna remove it
-                this.onNotes.splice(this.onNotes.indexOf(note), 1);
-                type = 'void';
-            }
-
-            if (type == 'void') return undefined;
+        // If we already have the 'ON' event, we know
+        // that the same note occuring again is a 'HIT' event
+        if (!this.onNotes.includes(note)) {
+            this.onNotes.push(note);
+            channel = nativeChannel;
+            type = 'hit';
         }
-
-        // handle normal input
         else {
-            type = message.data[2] > 0 ? 'on' : 'off';
-            channel = this.mapToChannel(message.data[0], type);
+            // We've seen this hit before, so we wanna remove it
+            // and return a void event
+            this.onNotes.splice(this.onNotes.indexOf(note), 1);
+            type = 'void';
         }
+
+        if (type == 'void') return undefined;
 
         return {
             device: this.deviceName,
