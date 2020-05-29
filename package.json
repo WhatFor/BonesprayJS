@@ -16,6 +16,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
+    "@types/dom-mediacapture-record": "^1.0.6",
     "@types/three": "^0.103.2",
     "@typescript-eslint/eslint-plugin": "^3.0.1",
     "@typescript-eslint/parser": "^3.0.1",

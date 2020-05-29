@@ -4,7 +4,8 @@ import { DrumkitDevice } from './modules/Devices/DrumkitDevice';
 import { KeyboardDevice } from './modules/Devices/KeyboardDevice';
 
 import SceneManager from './modules/SceneManager';
-import { BoxScene } from './modules/Scenes/BoxScene';
+import BoxScene from './modules/Scenes/BoxScene';
+import AudioVisualiserScene from './modules/Scenes/AudioVisualiserScene';
 import MidiInterface from './modules/MidiInterface';
 
 /* App Launch */
@@ -16,7 +17,8 @@ import MidiInterface from './modules/MidiInterface';
     // Register Scenes
     var sceneManager = new SceneManager();
     sceneManager.registerScenes([
-        new BoxScene(1),
+        new AudioVisualiserScene(1),
+        new BoxScene(2),
     ]);
 
     // Connect Push2 
@@ -36,5 +38,4 @@ import MidiInterface from './modules/MidiInterface';
 
     // Debug - Mark a scene as active
     sceneManager.activateScene(1);
-
 })();

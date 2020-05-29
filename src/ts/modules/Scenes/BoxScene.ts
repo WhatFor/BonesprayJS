@@ -1,7 +1,7 @@
 import { IScene, MidiNote } from "../../types/midi";
 import * as THREE from "three";
 
-export class BoxScene implements IScene {
+export default class BoxScene implements IScene {
 
     id?: number;
     active: boolean = false;
@@ -71,7 +71,7 @@ export class BoxScene implements IScene {
         this.scene.add(this.mesh1);
         this.scene.add(this.mesh2);
 
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(window.innerWidth / 4, window.innerHeight / 4, false);
         document.body.appendChild(this.renderer.domElement);
     }
