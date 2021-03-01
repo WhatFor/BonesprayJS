@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "requirejs": "^2.3.6",
-    "three": "^0.116.1"
+    "three": "^0.125.0"
   }
 }
